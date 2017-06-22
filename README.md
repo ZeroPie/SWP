@@ -1,7 +1,6 @@
 ---
 ##### Datenhaltung | KundeDaten
 ---
-
 #### bks.datenhaltung.kundedaten.impl
 [ICrudKundeImpl
 
