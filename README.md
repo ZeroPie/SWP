@@ -11,6 +11,33 @@ import bks.datenhaltung.bksdbmodel.entities.Kunde;
 #### bks.datenhaltung.kundedaten.impl
 - [ICrudKundeImpl]
 
+```
+public class ICRUDKundeImpl implements ICRUDKunde{
+
+    private EntityManager entityManager;
+
+    @Override
+    public void setEntityManager(EntityManager em) {
+        this.entityManager = em;
+    }
+
+    @Override
+    public Kunde getKundeByID(int kid) {
+        Kunde kunde = null;
+        if(entityManager != null)
+            kunde = entityManager.find(Kunde.class, kid);
+        return kunde;
+    }
+
+    @Override
+    public List<Kunde> getKundenListe() {
+        List<Kunde> kundenList = null;
+        Query query = entityManager.createNativeQuery("SELECT * FROM Kunde", Kunde.class);
+        kundenList = query.getResultList();
+        return kundenList;
+    }
+
+
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
 
