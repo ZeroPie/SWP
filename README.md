@@ -13,12 +13,13 @@
 #### Steuerung | KundeSteuerung
 ---
 
-#### grenz
+#### bks.fachlogik.kundesteuerung.grenz;
 - [KontoGrenz]
-#### impl
+#### bks.fachlogik.kundesteuerung.impl;
+- [ICRUDKundeImpl]
 
-#### services
-
+#### bks.fachlogik.kundesteuerung.services;
+- [IKundeSteuerung]
 ---
 #### GUI | KundeGUI
 ---
@@ -33,3 +34,8 @@
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/test/bks/datenhaltung/kundedaten/impl/ICRUDKundeImplTest.java>
 
 [KontoGrenz]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/grenz/KontoGrenz.java>
+
+[ICRUDKundeImpl]:
+<https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/impl/IKundeSteuerungImpl.java>
+[IKundeSteuerung]:
+https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java
