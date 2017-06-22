@@ -6,6 +6,7 @@ Datenhaltung
 ---
 kundedaten.impl
 - ICrudKundeImpl
+
 kundedaten.services(Interfaces)
 - ICrudKunde
 
