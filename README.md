@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import bks.datenhaltung.bksdbmodel.entities.Kunde;
 ```
 ### test.bks.datenhaltung.kundedaten.impl
-[ICRUDKundeImplTest]
+- [ICRUDKundeImplTest]
 
 ```    
     private static EntityManager entityManager;
