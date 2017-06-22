@@ -29,7 +29,6 @@ import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 
 [ICRUDKundeImpl]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/impl/ICRUDKundeImpl.java>
 
-
 [ICrudKunde]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/services/ICRUDKunde.java>
 
@@ -40,8 +39,13 @@ import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 
 [ICRUDKundeImpl]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java>
-[IKundeSteuerungImpl]:
+
+[IKundeSteuerung]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java>
+
+[IKundeSteuerungImpl]:
+<https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/impl/IUeberweisungSteuerungImpl.java>
+
 [KundeGUI]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/ProfilBearbeitenFrame.java>
 
