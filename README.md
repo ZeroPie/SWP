@@ -19,7 +19,7 @@
 - [IKundeSteuerungImpl]
 
 #### bks.fachlogik.kundesteuerung.services;
-- [IKundeSteuerung]
+- [IKundeSteuerungImpl]
 ---
 #### GUI | KundeGUI |
 ---
