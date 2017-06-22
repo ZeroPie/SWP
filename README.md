@@ -6,7 +6,6 @@ Datenhaltung
 ---
 
 ### KundeDaten
-
 #### kundedaten.impl
 - ICrudKundeImpl
 
