@@ -23,7 +23,7 @@
 ---
 #### GUI | KundeGUI
 ---
-#### bks.gui.kundegui.gui;
+#### bks.gui.kundegui.gui; import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 - [FrameKunde]
 - [KundeGUI]
 
