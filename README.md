@@ -11,7 +11,7 @@
 - [ICrudKundeImpl]
 
 ---
-#### Steuerung | KundeSteuerung | imports/uses ICRUDKundeImpl;
+#### Steuerung | KundeSteuerung | (uses ICRUDKundeImpl);
 ---
 
 #### bks.fachlogik.kundesteuerung.grenz;
