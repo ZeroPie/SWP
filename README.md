@@ -34,7 +34,7 @@ import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl;
 #### bks.gui.kundegui.gui;
 - [FrameKunde]
 ```
-import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
+import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl; `#1589F0`
 ```
 - [KundeGUI]
 
