@@ -1,9 +1,6 @@
 ---
 #### Datenhaltung | KundeDaten
 ---
-#### bks.datenhaltung.kundedaten.impl
-- [ICrudKundeImpl
-
 #### bks.datenhaltung.kundedaten.services(Interfaces)
 - [ICrudKunde]
 
@@ -11,6 +8,9 @@
 import javax.persistence.EntityManager;
 import bks.datenhaltung.bksdbmodel.entities.Kunde;
 ```
+#### bks.datenhaltung.kundedaten.impl
+- [ICrudKundeImpl
+
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
 
