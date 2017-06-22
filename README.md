@@ -1,8 +1,8 @@
 ---
 #### Datenhaltung | KundeDaten
 ---
-#### bks.datenhaltung.kundedaten.services(Interfaces)
-- [ICrudKunde]
+#### bks.datenhaltung.kundedaten.services
+- [ICrudKunde] (Interface)
 
 #### bks.datenhaltung.kundedaten.impl
 - [ICrudKundeImpl]
@@ -23,13 +23,16 @@ private final static IDatabase iDatabase = new IDatabaseImpl();
 
 #### bks.fachlogik.kundesteuerung.grenz;
 - [KundeGrenz]
+
+#### bks.fachlogik.kundesteuerung.services;
+- [IKundeSteuerung](Interface)
+
 #### bks.fachlogik.kundesteuerung.impl;
 - [IKundeSteuerungImpl]
 ```
 import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl; 
 ```
-#### bks.fachlogik.kundesteuerung.services;
-- [IKundeSteuerung]
+
 ---
 #### GUI | KundeGUI |
 ---
