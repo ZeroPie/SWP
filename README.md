@@ -21,8 +21,9 @@
 #### bks.fachlogik.kundesteuerung.services;
 - [IKundeSteuerung]
 ---
-#### GUI | KundeGUI | import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
+#### GUI | KundeGUI |
 ---
+import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 #### bks.gui.kundegui.gui;
 - [FrameKunde]
 - [KundeGUI]
