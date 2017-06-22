@@ -23,6 +23,8 @@
 ---
 #### GUI | KundeGUI
 ---
+#### bks.gui.kundegui.gui;
+- [KundeGUI]
 
 [ICRUDKundeImpl]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/impl/ICRUDKundeImpl.java>
 
