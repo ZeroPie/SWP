@@ -1,6 +1,11 @@
 # SWP
 
 
+---
+Datenhaltung
+---
+kundedaten.impl
+-ICRUDKUNDEIMPL
 
 
 ---
@@ -8,9 +13,12 @@ Steuerung
 ---
 
 
+---
+GUI
+---
 
----
-Datenhaltung
----
-kundedaten.impl
--ICRUDKUNDEIMPL
+
+
+
+
+
