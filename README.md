@@ -1,7 +1,6 @@
 ---
 #### Datenhaltung | KundeDaten
 ---
-
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
 ```
@@ -33,7 +32,6 @@ import javax.persistence.EntityManager;
 ```
 import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl; 
 ```
-
 ---
 #### GUI | KundeGUI |
 ---
