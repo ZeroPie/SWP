@@ -24,9 +24,7 @@ import javax.persistence.EntityManager;
 #### bks.fachlogik.kundesteuerung.impl;
 - [IKundeSteuerungImpl]
 ```
-import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
-import bks.datenhaltung.bksdbmodel.services.IDatabase;
-import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl;
 ```
 #### bks.fachlogik.kundesteuerung.services;
 - [IKundeSteuerung]
