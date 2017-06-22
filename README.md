@@ -1,5 +1,5 @@
 ---
-#### Datenhaltung - KundeDaten
+#### Datenhaltung | KundeDaten
 ---
 
 #### kundedaten.impl
