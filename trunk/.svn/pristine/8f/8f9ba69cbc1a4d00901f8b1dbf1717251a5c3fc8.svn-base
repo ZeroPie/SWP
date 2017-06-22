@@ -1,0 +1,14 @@
+package bks.fachlogik.kontosteuerung.grenz;
+
+import java.util.Date;
+
+public class KontoGrenz {
+    
+    private int     ktoid;
+    private int     kid;
+    private Date    erstellungsdatum;
+    private double  kontostand;
+    private double  dispo;
+    private String  status;
+    
+}

@@ -1,0 +1,32 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/AdminSteuerung.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KontoGUI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KundeDaten.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/eclipselink.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/AdminDaten.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KontoDaten.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/ManagerSteuerung.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/ManagerGUI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/BKSDBModel.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/SachbearbeiterGUI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/ManagerDaten.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/beansbinding-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/ComponentController.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KontoSteuerung.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/javax.persistence_2.1.0.v201304241213.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KundeSteuerung.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/SachbearbeiterDaten.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/AdminGUI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/KundeGUI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/swing-layout-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/SachbearbeiterSteuerung.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/mysql-connector-java-5.1.23-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/lib/AbsoluteLayout.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

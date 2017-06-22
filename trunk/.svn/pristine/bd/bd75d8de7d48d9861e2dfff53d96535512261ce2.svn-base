@@ -1,0 +1,94 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import bks.datenhaltung.bksdbmodel.entities.*; //entitiy UeberweisungsVorlage
+import bks.datenhaltung.sachbearbeiterdaten.impl.IUeberweisungsVorlageImpl;
+
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.fachlogik.kundesteuerung.grenz.UeberweisungsvorlageGrenz;
+import bks.fachlogik.kundesteuerung.services.IUeberweisungVorlageSteuerung;
+import javax.persistence.EntityManager;
+
+import java.util.ArrayList;
+
+
+public class IUeberweisungVorlageSteuerungImpl implements IUeberweisungVorlageSteuerung {
+
+    IDatabaseImpl database      = new IDatabaseImpl();
+    EntityManager entityManager = database.getEntityManager();
+
+    @Override
+    public ArrayList<UeberweisungsvorlageGrenz> getUeberweisungvorlagenList() {
+        ArrayList<UeberweisungsvorlageGrenz> UeberweisungsvorlageGrenzList = new ArrayList<UeberweisungsvorlageGrenz>();
+        ArrayList<UeberweisungsvorlageGrenz> UeberweisungsvorlageList      = new ArrayList<UeberweisungsvorlageGrenz>();
+
+        return UeberweisungsvorlageList;
+    }
+
+    @Override
+    public UeberweisungsvorlageGrenz getUeberweisungvorlage(int uvid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    /**
+     * Erstellt eine Entitätsklasse Ueberweisungsvorlage, befüllt sie mit dem Werten der
+     * übergebenen Grenzklasse ueberweisungsVorlageGrenz und übergibt sie an die Methode
+     * iUeberweisungsVorlageImpl.insertUeberweisungsVorlage(), welche den Übergebenen Datensatz 
+     * in der Datenbank anlegt.
+     *
+     * @author Alejandro Palacios
+     * @param ueberweisungsVorlageGrenz zu ändernder Ueberweisungsvorlage als Grenzklasse
+     * @return true bei Erfolg, false bei Mißerfolg
+     */
+    @Override
+    public boolean ueberweisungsvorlageAnlegen(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) {
+        UeberweisungsVorlage ueberweisungsVorlageEntity = new UeberweisungsVorlage();
+                             ueberweisungsVorlageEntity = GrenzToEntity(ueberweisungsVorlageGrenz);
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();      
+                                  iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+        
+        entityManager.getTransaction().begin();
+        
+        if(iUeberweisungsVorlageImpl.insertUeberweisungsVorlage(ueberweisungsVorlageEntity)){
+            entityManager.getTransaction().commit();
+            return true;
+        }else
+            entityManager.getTransaction().rollback();                
+            return false;
+        
+    }
+
+    @Override
+    public boolean ueberweisungsvorlageBearbeiten() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean ueberweisungsvorlageLoeschen(int[] uvidList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean ueberweisungsvorlageAnzeigen(int uvid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+    
+    
+    public UeberweisungsVorlage GrenzToEntity(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) {
+        
+        UeberweisungsVorlage ueberweisungsVorlage = new UeberweisungsVorlage();
+        ueberweisungsVorlage.setBetrag(ueberweisungsVorlageGrenz.getBetrag());
+        ueberweisungsVorlage.setDatum(ueberweisungsVorlageGrenz.getDatum());
+        ueberweisungsVorlage.setErlaeuterung(ueberweisungsVorlageGrenz.getVerwendungszweck());
+        ueberweisungsVorlage.setUvid(ueberweisungsVorlageGrenz.getUvid());
+       
+        
+        return ueberweisungsVorlage;       
+                
+    }
+    
+    
+}

@@ -1,0 +1,25 @@
+package bks.fachlogik.kundesteuerung.services;
+
+import bks.datenhaltung.bksdbmodel.entities.Ueberweisung;
+import bks.fachlogik.kundesteuerung.grenz.UeberweisungGrenz;
+import java.util.List;
+
+/**
+ *
+ * @author Barthy
+ */
+public interface IUeberweisungSteuerung {
+    
+    public Ueberweisung getUeberweisung(int uvid); // added
+    
+    public List<Ueberweisung> getAlleUeberweisungen();
+    
+    public List<Ueberweisung> getStornierbareUeberweisungen();
+    
+    public boolean ueberweisungErfassen(UeberweisungGrenz uberweisungGrenz);
+    
+    public boolean ueberweisungStornieren(int ubid);
+    
+    public UeberweisungGrenz ueberweisungAuswaehlen(int ubid); 
+        
+}

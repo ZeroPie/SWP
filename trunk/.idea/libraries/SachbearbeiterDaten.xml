@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SachbearbeiterDaten">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/SachbearbeiterDaten/dist/SachbearbeiterDaten.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

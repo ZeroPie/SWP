@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KundeSteuerung">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/KundeSteuerung/dist/KundeSteuerung.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

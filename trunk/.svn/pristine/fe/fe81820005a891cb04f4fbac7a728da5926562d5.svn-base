@@ -1,0 +1,14 @@
+package bks.fachlogik.kontosteuerung.grenz;
+
+import java.util.Date;
+
+public class UeberweisungsvorlageGrenz {
+    
+    private int     uvid;
+    private int     betrag;
+    private Date    datum;
+    private int     vonkonto;
+    private int     kid;
+    private String  verwendungszweck;
+    
+}

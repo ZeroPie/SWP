@@ -1,0 +1,188 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import bks.datenhaltung.bksdbmodel.entities.Konto;
+import bks.datenhaltung.bksdbmodel.entities.Zahlungsverkehr;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.datenhaltung.bksdbmodel.services.IDatabase;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.datenhaltung.kontodaten.services.IKontoService;
+import bks.fachlogik.kundesteuerung.grenz.KontoGrenz;
+import bks.fachlogik.kundesteuerung.grenz.KontoauszugGrenz;
+import bks.fachlogik.kundesteuerung.services.IKontoauszugSteuerung;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.EntityManager;
+
+/**
+ * Steuerungsklasse für KontoListeAuszugFrame bietet Methoden 
+ * zum anzeigen der Konten und Kontoauszuege sowie das ausdrucken
+ * von Kontoauszuegen.
+ *
+ * @author Bilal Aydin
+ */
+public class IKontoauszugSteuerungImpl implements IKontoauszugSteuerung{
+        IDatabase db = new IDatabaseImpl();
+        EntityManager em = db.getEntityManager();
+
+    /* Holt Liste aller Konten vom Kunden mit gegebener Kundennummer kid
+     * mithilfe von IKontoService.getKontoListe(kid),
+     * in eine ArrayList von KontoGrenz-Klassen
+     * 
+     * @author Bilal Aydin
+     * @param kid Kundennummer
+     * @return Liste aller Konten des Kunden als Grenzklassen
+     */
+    public List<KontoGrenz> getKundenKontoListe() {
+       // IDatabase db = new IDatabaseImpl();
+       // EntityManager em = db.getEntityManager();                        
+        ArrayList<KontoGrenz> listKontoGrenz = new ArrayList();
+        IKontoService iKontoService = new IKontoServiceImpl();
+        iKontoService.setEntityManager(em);
+        
+        List<Konto> kontolist = iKontoService.getKontoListe(IActivateComponentImpl.getUser().getKid() );     
+        if(kontolist == null) {
+            listKontoGrenz = null;           
+            return listKontoGrenz;
+        }else {
+        for(Konto k : kontolist) {
+            KontoGrenz grenzKonto = new KontoGrenz();
+            grenzKonto.setKtoid(k.getKtoid() );
+            grenzKonto.setErstellungsdatum(k.getErstellungsdatum() );
+            grenzKonto.setKontostand( k.getKontostand() );
+            grenzKonto.setKtoid(k.getKtoid() );
+            grenzKonto.setDispo(k.getDispo() );
+            grenzKonto.setStatus(k.getStatus() );
+            grenzKonto.setKid(k.getKunde().getKid() );
+            
+            listKontoGrenz.add(grenzKonto);   
+            
+        }              
+        return listKontoGrenz;
+        }
+    }
+
+    
+    
+    /* Holt Liste aller Kontoauszuege vom Konto mit gegebener Kontonummer ktoid
+     * mithilfe von IKontoService.getKontoauszugDrucken(ktoid),
+     * in eine ArrayList von KontoauszugGrenz-Klassen
+     *
+     * @author Bilal Aydin
+     * @param ktoid Kontonummer
+     * @return  Liste aller noch nicht ausgedruckten Kontoauszuege des gewaehlten Konto als
+     *          Grenzklassen
+    */
+    @Override
+    public List<KontoauszugGrenz> getKontoauszuege(int ktoid) {
+        IKontoService iKontoService = new IKontoServiceImpl();
+        ArrayList<KontoauszugGrenz> listZahlungsverkehrGrenz = new ArrayList();
+        boolean sollTrue = false, habenTrue = false;
+                
+        iKontoService.setEntityManager(em);
+        em.getTransaction().begin();
+        
+        Konto k = iKontoService.getKontoByID(ktoid);        
+        List<Zahlungsverkehr> listZahlungsverkehr = iKontoService.getKontoauszugDrucken(ktoid);
+        em.getTransaction().commit();
+        
+        for (int i = 0; i < listZahlungsverkehr.size(); i++) {
+            Zahlungsverkehr zahlV = listZahlungsverkehr.get(i);
+            KontoauszugGrenz kontoauszugGrenz = new KontoauszugGrenz();
+            kontoauszugGrenz.setKaid(zahlV.getZid());
+            kontoauszugGrenz.setKonto(zahlV.getKonto().getKtoid() );
+            kontoauszugGrenz.setBlz(123456);
+            kontoauszugGrenz.setDatum(zahlV.getDatum() );
+            kontoauszugGrenz.setBankname("BKS-Bank");
+            kontoauszugGrenz.setBuchungstext(zahlV.getErlaeuterung() );
+            kontoauszugGrenz.setStadt("Koeln");
+            
+            kontoauszugGrenz.setSaldo(k.getKontostand() );
+            kontoauszugGrenz.setSoll(0 );
+            kontoauszugGrenz.setHaben(0 );
+            kontoauszugGrenz.setBetrag(0 );
+            
+            if (zahlV.getSoll() != null) {
+                kontoauszugGrenz.setSoll(zahlV.getSoll()); sollTrue = true;
+            }        
+            if (zahlV.getHaben() != null) {
+                kontoauszugGrenz.setHaben(zahlV.getHaben()); habenTrue = true;
+            }  
+            if(sollTrue && habenTrue) { kontoauszugGrenz.setBetrag(kontoauszugGrenz.getHaben()+kontoauszugGrenz.getSoll() ); }
+            else if(sollTrue && !habenTrue) { kontoauszugGrenz.setBetrag(0+kontoauszugGrenz.getSoll() ); }
+            else if(!sollTrue && habenTrue) { kontoauszugGrenz.setBetrag(kontoauszugGrenz.getHaben()+0 ); }
+                       
+            listZahlungsverkehrGrenz.add(kontoauszugGrenz);
+            
+        }
+      //  em.close();
+        return listZahlungsverkehrGrenz;
+    } 
+
+    
+    /* Schreibt eine Liste von Zahlungsverkehren eines Kontos in eine Datei
+     * nach der Dateiformatierung: Kontoauszug-Datum-Uhrzeit.txt
+     *
+     * @author Bilal Aydin
+     * @param ktoid Kontonummer
+       @param listeKontoauszugGrenz Liste der Zahlungsverkehre eines Kontos
+     * @return  true, wenn drucken erfolgreich
+                false, wenn drucken nicht erfolgreich
+     */
+    @Override
+    public boolean kontoauszugDrucken(int ktoid, List<KontoauszugGrenz> listeKontoauszugGrenz) {
+        String[] strings = new String[listeKontoauszugGrenz.size()];
+        String filename = "./Kontoauszuege/Kontoauszug-";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatClock = new SimpleDateFormat("dd.MM.yyyy-HHmmss");
+        Double soll = 0.00, betrag = 0.00, saldo = 0.00;
+        String sign = "", signBetrag = "";
+        
+        filename += dateFormatClock.format(new Date());
+        filename += ".txt"; 
+        
+        for (int i = 0; i < listeKontoauszugGrenz.size(); i++) {
+            KontoauszugGrenz zahlung = listeKontoauszugGrenz.get(i);
+            String datum = dateFormat.format(zahlung.getDatum());
+            String zweck = zahlung.getBuchungstext();
+            saldo = zahlung.getSaldo();
+            betrag = zahlung.getHaben()+zahlung.getSoll();
+            
+            if (zahlung.getHaben() - zahlung.getSoll() < 0) {
+                signBetrag = "-";
+            } else {
+                signBetrag = "+";
+            }
+            
+            strings[i] = String.format("%-25s %-61s %10.2f%s", datum, zweck, betrag, signBetrag);
+        }
+        try {
+            if(saldo > 0) {
+                sign = "+";
+            }
+            
+            File datei = new File(filename);
+            new File("./Kontoauszuege").mkdirs();
+            PrintWriter printWriter = new PrintWriter(datei);
+            printWriter.printf("Kontoauszug\r\n\r\n");
+            printWriter.printf("--------------------------------------------------------------------------------------------\r\n");
+            printWriter.printf("KontoNr.: %010d           BLZ.: 123 456 78               BKS-Bank Koeln      Auszug Nr.1         \r\n", ktoid);
+            printWriter.printf("--------------------------------------------------------------------------------------------\r\n");
+            for (String s : strings) {
+                printWriter.println(s);
+            }
+            printWriter.printf("--------------------------------------------------------------------------------------------\r\n");
+            printWriter.printf("Koeln den %s Uhr %48s %24.2f %s\r\n", new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date()), "Saldo", saldo, sign);
+            printWriter.printf("--------------------------------------------------------------------------------------------\r\n");
+            printWriter.flush();
+            
+            return true;
+        } catch (IOException ex) {            
+            return false;
+        }
+    }
+}

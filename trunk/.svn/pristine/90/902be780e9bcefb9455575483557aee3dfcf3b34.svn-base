@@ -1,0 +1,146 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import bks.datenhaltung.bksdbmodel.entities.*;
+import bks.datenhaltung.sachbearbeiterdaten.impl.*;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.fachlogik.kundesteuerung.grenz.UeberweisungsvorlageGrenz;
+import bks.fachlogik.kundesteuerung.services.IUeberweisungVorlageSteuerung;
+
+
+public class IUeberweisungVorlageSteuerungImpl implements IUeberweisungVorlageSteuerung {
+
+
+
+    /* Lädt eine Liste aller UeberweisungsVorlagen vom Kunden
+     * durch IUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(kid),
+     * und returns eine Liste von Typ UeberweisungsVorlageGrenz
+     *
+     * @author Alejandro Palacios
+     * @param void (implizit Kunde)
+     * @return Liste aller UeberweisungsVorlagen
+     */
+    @Override
+    public ArrayList<UeberweisungsvorlageGrenz> getUeberweisungvorlagenList() {
+
+        IDatabaseImpl database      = new IDatabaseImpl();
+        EntityManager entityManager = database.getEntityManager();
+        List<UeberweisungsVorlage>           ueberweisungsvorlageList      = new ArrayList<UeberweisungsVorlage>();
+        ArrayList<UeberweisungsvorlageGrenz> ueberweisungsvorlageGrenzList = new ArrayList<UeberweisungsvorlageGrenz>();
+
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();
+                                  iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+
+
+        entityManager.getTransaction().begin();
+        ueberweisungsvorlageList = iUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(IActivateComponentImpl.getUser().getKid());
+
+        if(ueberweisungsvorlageList == null){
+            ueberweisungsvorlageGrenzList = null;
+            return ueberweisungsvorlageGrenzList;
+        } else {
+
+            for (UeberweisungsVorlage uV : ueberweisungsvorlageList) {
+                UeberweisungsvorlageGrenz uVG = new UeberweisungsvorlageGrenz();
+                uV.setBetrag(uVG.getBetrag());
+                uV.setDatum(uVG.getDatum());
+                uV.setUvid(uVG.getKid());
+                Kunde kunde = new Kunde();
+                kunde.setKid(uVG.getKid());
+                uV.setKunde(kunde);
+                uVG.setVerwendungszweck(uVG.getVerwendungszweck());
+                uVG.setVonkonto(uVG.getVonkonto());
+
+                ueberweisungsvorlageGrenzList.add(uVG);
+
+            }
+            return ueberweisungsvorlageGrenzList;
+        }
+    }
+
+    @Override
+    public UeberweisungsvorlageGrenz getUeberweisungvorlage(int uvid) {
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();    
+        iUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(uvid);
+        
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    /**
+     * Macht aus die Uberweisungsvorlage-Grenzklasse eine Ueberweisungsvorlage-Entitätsklasse 
+     * und speichert diese mit iUeberweisungsVorlageImpl.insertUeberweisungsVorlage() in der Datenbank
+     *
+     * @author Alejandro Palacios
+     * @param ueberweisungsVorlageGrenz zu ändernder Ueberweisungsvorlage als Grenzklasse
+     * @return true bei Erfolg, false bei Mißerfolg
+     */
+    @Override
+    public boolean ueberweisungsvorlageAnlegen(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) {
+
+        IDatabaseImpl database      = new IDatabaseImpl();
+        EntityManager entityManager = database.getEntityManager();
+        UeberweisungsVorlage ueberweisungsVorlageEntity = new UeberweisungsVorlage();
+                             ueberweisungsVorlageEntity = GrenzToEntity(ueberweisungsVorlageGrenz);
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();      
+                                  iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+        
+        entityManager.getTransaction().begin();
+        
+        if(iUeberweisungsVorlageImpl.insertUeberweisungsVorlage(ueberweisungsVorlageEntity)){
+            entityManager.getTransaction().commit();
+            return true;
+        }else {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean ueberweisungsvorlageBearbeiten() {
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();    
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+
+    @Override
+    public boolean ueberweisungsvorlageLoeschen(int[] uvidList) {  
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();    
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean ueberweisungsvorlageAnzeigen(int uvid) {
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();    
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+    
+    
+    public UeberweisungsVorlage GrenzToEntity(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) {
+        
+        UeberweisungsVorlage ueberweisungsVorlage = new UeberweisungsVorlage();
+        ueberweisungsVorlage.setBetrag(ueberweisungsVorlageGrenz.getBetrag());
+        ueberweisungsVorlage.setDatum(ueberweisungsVorlageGrenz.getDatum());
+        ueberweisungsVorlage.setErlaeuterung(ueberweisungsVorlageGrenz.getVerwendungszweck());
+        ueberweisungsVorlage.setUvid(ueberweisungsVorlageGrenz.getUvid());
+        Konto konto = new Konto();
+        konto.setKtoid(ueberweisungsVorlageGrenz.getVonkonto());
+        ueberweisungsVorlage.setVonkonto(konto);
+        Kunde kunde = new Kunde(IActivateComponentImpl.getUser().getKid());
+        ueberweisungsVorlage.setKunde(kunde);
+        
+        return ueberweisungsVorlage;       
+                
+    }
+    
+    
+}

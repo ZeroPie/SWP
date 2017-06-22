@@ -1,0 +1,161 @@
+package bks.fachlogik.kontosteuerung.impl;
+
+import bks.datenhaltung.bksdbmodel.entities.Ueberweisung;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.datenhaltung.bksdbmodel.services.IDatabase;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.datenhaltung.kontodaten.services.IKontoService;
+import bks.fachlogik.kontosteuerung.grenz.UeberweisungGrenz;
+import bks.fachlogik.kontosteuerung.services.IKontoSteuerung;
+import bks.datenhaltung.sachbearbeiterdaten.impl.IUeberweisungsVorlageImpl;
+import bks.datenhaltung.sachbearbeiterdaten.services.IUeberweisungsVorlage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.EntityManager;
+
+public class IKontoSteuerungImpl implements IKontoSteuerung {
+
+    @Override
+    public List<UeberweisungGrenz> getLoeschbareUeberweisungen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean showLoeschbareUeberweisung() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean ueberweisungenLoeschen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<UeberweisungGrenz> getAlleUeberweisungen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean wartendeUeberweisungenAnzeigen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Fürt die Methode iKontoService.ueberweisungAusfuehren(ubid) 
+     * mit einer übergebenen UeberweisungsId aus
+     * 
+     * @author Alexander Merkel
+     * @param ubid UeberweisungsId der zu ueberweisenden Ueberweisung
+     * @return true bei Erfolg, false bei Mißerfolg
+     * nach Datum
+     */
+    @Override
+    public boolean ueberweisungAusfuehren(int ubid) {
+        IDatabase db = new IDatabaseImpl();
+        EntityManager em = db.getEntityManager();
+        IKontoService iKontoService = new IKontoServiceImpl();
+        iKontoService.setEntityManager(em);
+        em.getTransaction().begin();
+
+        if (iKontoService.ueberweisungAusfuehren(ubid)) {
+            em.getTransaction().commit();
+            return true;
+        } else {
+            em.getTransaction().rollback();
+            return false;
+        }
+
+    }
+
+    /**
+     * Holt eine Liste aller wartenden Ueberweisungen vom einem Kunden mit
+     * gegebener Kundennummer kid mithilfe von
+     * IKontoService.getStornierbareUeberweisungen(kid), und speichert diese in
+     * einer ArrayList von UeberweisungGrenz und sortiert diese ArrayList mit
+     * Collections.sort nach Datum
+     *
+     * @author Alexander Merkel
+     * @param kid Kundennummer
+     * @return Liste aller Ueberweisungen eines Kunden als Grenzklassen sortiert
+     * nach Datum
+     */
+    @Override
+    public List<UeberweisungGrenz> getWartendeUeberweisungenByKid(int kid) {
+        ArrayList<UeberweisungGrenz> ueberweisungsGrenzList = new ArrayList();
+
+        IDatabase db = new IDatabaseImpl();
+        EntityManager em = db.getEntityManager();
+        IKontoService iKontoService = new IKontoServiceImpl();
+        iKontoService.setEntityManager(em);
+
+        List<Ueberweisung> listUeberweisung = iKontoService.getStornierbareUeberweisungen(kid);
+        for (Ueberweisung u : listUeberweisung) {
+            UeberweisungGrenz ueberweisungGrenz = new UeberweisungGrenz();
+            ueberweisungGrenz.setUbid(u.getUbid());
+            ueberweisungGrenz.setBetrag(u.getBetrag());
+            ueberweisungGrenz.setDatum(u.getDatum());
+            ueberweisungGrenz.setKid(u.getKunde().getKid());
+            ueberweisungGrenz.setStatus(u.getStatus());
+            ueberweisungGrenz.setVerwendungszweck(u.getVerwendungszweck());
+            ueberweisungGrenz.setVonkonto(u.getVonkonto().getKtoid());
+            ueberweisungGrenz.setZukonto(u.getZukonto().getKtoid());
+            ueberweisungsGrenzList.add(ueberweisungGrenz);
+
+        }
+        Collections.sort(ueberweisungsGrenzList, (UeberweisungGrenz o1, UeberweisungGrenz o2) -> {
+            if (o1.getDatum() == null || o2.getDatum() == null) {
+                return -1;
+            }
+            return o1.getDatum().compareTo(o2.getDatum());
+        });
+        return ueberweisungsGrenzList;
+    }
+
+    /**
+     * Holt eine Liste aller wartenden Ueberweisungen vom einem Konto mit
+     * gegebener Kontonummer ktoid mithilfe von
+     * IUeberweisungsVorlage.getUeberweisungenVonKonto(ktoid), und speichert
+     * diese in einer ArrayList von UeberweisungGrenz und sortiert diese
+     * ArrayList mit Collections.sort nach Datum
+     *
+     * @author Alexander Merkel
+     * @param ktoid Kontonummer
+     * @return Liste aller Ueberweisungen eines Kontos als Grenzklassen sortiert
+     * nach Datum
+     */
+    @Override
+    public List<UeberweisungGrenz> getWartendeUeberweisungenByKtoid(int ktoid) {
+        ArrayList<UeberweisungGrenz> ueberweisungsGrenzList = new ArrayList();
+
+        IDatabase db = new IDatabaseImpl();
+        EntityManager em = db.getEntityManager();
+        IUeberweisungsVorlage iUeberweisungsVorlage = new IUeberweisungsVorlageImpl();
+        iUeberweisungsVorlage.setEntityManager(em);
+
+        List<Ueberweisung> listUeberweisung = iUeberweisungsVorlage.getUeberweisungenVonKonto(ktoid);
+        for (Ueberweisung u : listUeberweisung) {
+            if (u.getStatus().equals("wt")) {
+                UeberweisungGrenz ueberweisungGrenz = new UeberweisungGrenz();
+                ueberweisungGrenz.setUbid(u.getUbid());
+                ueberweisungGrenz.setBetrag(u.getBetrag());
+                ueberweisungGrenz.setDatum(u.getDatum());
+                ueberweisungGrenz.setKid(u.getKunde().getKid());
+                ueberweisungGrenz.setStatus(u.getStatus());
+                ueberweisungGrenz.setVerwendungszweck(u.getVerwendungszweck());
+                ueberweisungGrenz.setVonkonto(u.getVonkonto().getKtoid());
+                ueberweisungGrenz.setZukonto(u.getZukonto().getKtoid());
+                ueberweisungsGrenzList.add(ueberweisungGrenz);
+            }
+
+        }
+        Collections.sort(ueberweisungsGrenzList, (UeberweisungGrenz o1, UeberweisungGrenz o2) -> {
+            if (o1.getDatum() == null || o2.getDatum() == null) {
+                return -1;
+            }
+            return o1.getDatum().compareTo(o2.getDatum());
+        });
+        return ueberweisungsGrenzList;
+    }
+
+}

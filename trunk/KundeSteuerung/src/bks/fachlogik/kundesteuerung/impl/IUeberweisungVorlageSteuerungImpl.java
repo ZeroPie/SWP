@@ -1,0 +1,202 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import bks.datenhaltung.bksdbmodel.entities.*;
+import bks.datenhaltung.sachbearbeiterdaten.impl.*;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.fachlogik.kundesteuerung.grenz.*;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.fachlogik.kundesteuerung.services.IUeberweisungVorlageSteuerung;
+import bks.fachlogik.kundesteuerung.impl.IKontoauszugSteuerungImpl;
+
+
+/**
+ * Stellt Funktionen zur Steuerung/Handhabung von Überweisungvorlagen bereit.
+ * Diese Klasse kann Überweisungsvorlagen durch Daten des Users aus der GUI erstellen
+ * und Überweisungen aus der Datenbank holen und für die GUI angepasst
+ * bereitstellen.
+ *
+ * @author #Alejandro Palacios
+ */
+
+public class IUeberweisungVorlageSteuerungImpl implements IUeberweisungVorlageSteuerung {
+
+    private final IKontoServiceImpl kontoService = new IKontoServiceImpl();
+    private final IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();
+    private final IKontoauszugSteuerungImpl iKontoauszugSteuerung = new IKontoauszugSteuerungImpl();
+    private final KundeGrenz kunde = IActivateComponentImpl.getUser();
+    private EntityManager entityManager;
+
+
+
+    /**
+     * Initialisiert den {@link EntityManager} und die {@link IUeberweisungsVorlageImpl}
+     * Instanz.
+     *
+     * @author Alejandro Palacios
+     */
+    public IUeberweisungVorlageSteuerungImpl(){
+        IDatabaseImpl database = new IDatabaseImpl();
+        this.entityManager = database.getEntityManager();
+        this.iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+    }
+
+
+    /** Lädt eine Liste aller UeberweisungsVorlagen vom Kunden
+     * durch IUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(kid),
+     * und returns eine Liste von Typ UeberweisungsVorlageGrenz
+     *
+     * @author Alejandro Palacios
+     * @return Liste aller UeberweisungsVorlagen
+     */
+    @Override
+    public ArrayList<UeberweisungsvorlageGrenz> getUeberweisungvorlagenList() {
+
+        List<UeberweisungsVorlage>           ueberweisungsvorlageList      = new ArrayList<>();
+        ArrayList<UeberweisungsvorlageGrenz> ueberweisungsvorlageGrenzList = new ArrayList<>();
+
+        ueberweisungsvorlageList = iUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(kunde.getKid());
+
+        if(ueberweisungsvorlageList == null){
+            return ueberweisungsvorlageGrenzList;
+        } else {
+            for (UeberweisungsVorlage uV : ueberweisungsvorlageList) {
+                UeberweisungsvorlageGrenz uVG = new UeberweisungsvorlageGrenz();
+                uVG.setUvid(uV.getUvid());
+                uVG.setBetrag(uV.getBetrag());
+                uVG.setDatum(uV.getDatum());
+                uVG.setKid(uV.getKunde().getKid());
+                uVG.setVerwendungszweck(uV.getErlaeuterung());
+                uVG.setVonkonto(uV.getVonkonto().getKtoid());
+                
+                ueberweisungsvorlageGrenzList.add(uVG);
+            }
+            return ueberweisungsvorlageGrenzList;
+        }
+    }
+
+    
+    /**
+     * Macht aus die Uberweisungsvorlage-Grenzklasse eine Ueberweisungsvorlage-Entitätsklasse 
+     * und speichert diese mit iUeberweisungsVorlageImpl.insertUeberweisungsVorlage() in der Datenbank
+     *
+     * @author Alejandro Palacios
+     * @param ueberweisungsVorlageGrenz zu ändernder Ueberweisungsvorlage als Grenzklasse
+     * @return true bei Erfolg, false bei Mißerfolg
+     */
+    @Override
+    public boolean ueberweisungsvorlageAnlegen(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) throws RuntimeException {
+
+        List<KontoGrenz> kontoGrenzList = new ArrayList<>();
+        Konto konto = new Konto();
+
+        kontoGrenzList = iKontoauszugSteuerung.getKundenKontoListe();
+
+
+        for (KontoGrenz kg : kontoGrenzList) {
+            if(ueberweisungsVorlageGrenz.getVonkonto() == kg.getKtoid()){
+                Konto ikonto = new Konto();
+                break;
+            }
+        }
+
+        ueberweisungsVorlageGrenz.setKid(this.kunde.getKid());
+        UeberweisungsVorlage ueberweisungsVorlage = new UeberweisungsVorlage();
+        Konto vonKonto = this.kontoService.getKontoByID(ueberweisungsVorlageGrenz.getVonkonto());
+        Kunde kunde = new Kunde();
+
+        kunde.setKid(this.kunde.getKid());
+        kunde.setTitel(this.kunde.getTitel());
+        kunde.setVorname(this.kunde.getVorname());
+        kunde.setName(this.kunde.getName());
+        kunde.setAdresse(this.kunde.getAdresse());
+        kunde.setFamilientstand(this.kunde.getFamilienstand());
+        kunde.setGeburtsdatum(this.kunde.getGeburtsdatum());
+        kunde.setGeschlecht(this.kunde.getGeschlecht());
+        kunde.setTelefon(this.kunde.getTelefon());
+        kunde.setNationalitaet(this.kunde.getNationalitaet());
+
+
+        if(vonKonto == null){
+            throw new RuntimeException("Abbuchungskonto nicht gefunden.");
+        }
+        if(vonKonto.getKunde().getKid() != this.kunde.getKid()){
+            throw new RuntimeException("Das angegebene Abbuchungskonto ist keines Ihrer Konten.");
+        }
+
+        ueberweisungsVorlage.setKunde(kunde);
+        ueberweisungsVorlage.setBetrag(ueberweisungsVorlageGrenz.getBetrag());
+        ueberweisungsVorlage.setDatum(ueberweisungsVorlageGrenz.getDatum());
+        ueberweisungsVorlage.setErlaeuterung(ueberweisungsVorlageGrenz.getVerwendungszweck());
+        ueberweisungsVorlage.setVonkonto(vonKonto);
+        ueberweisungsVorlage.setKunde(vonKonto.getKunde());
+        
+        entityManager.getTransaction().begin();
+        
+        if(iUeberweisungsVorlageImpl.insertUeberweisungsVorlage(ueberweisungsVorlage)){
+            entityManager.getTransaction().commit();
+            return true;
+        }else {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+    }
+
+
+    /**
+     * Editiert eine Überweisungsvorlage
+     *
+     * @param  uvg ÜberweisungsVorlageGrenz die editiert wird
+     * @return true, falls eine Überwesiungsvorlage erfolgreich editiert wurde,
+     *         false, falls ein Fehler aufgetaucht ist.
+     * @author Alejandro Palacios
+     */
+    @Override
+    public boolean ueberweisungsvorlageBearbeiten(UeberweisungsvorlageGrenz uvg) {
+
+        UeberweisungsVorlage ueberweisungsVorlage = new UeberweisungsVorlage();
+        Konto vonKonto = this.kontoService.getKontoByID(1);
+        Kunde kunde = new Kunde();
+
+        kunde.setKid(this.kunde.getKid());
+        kunde.setTitel(this.kunde.getTitel());
+        kunde.setVorname(this.kunde.getVorname());
+        kunde.setName(this.kunde.getName());
+        kunde.setAdresse(this.kunde.getAdresse());
+        kunde.setFamilientstand(this.kunde.getFamilienstand());
+        kunde.setGeburtsdatum(this.kunde.getGeburtsdatum());
+        kunde.setGeschlecht(this.kunde.getGeschlecht());
+        kunde.setTelefon(this.kunde.getTelefon());
+        kunde.setNationalitaet(this.kunde.getNationalitaet());
+
+
+        ueberweisungsVorlage.setUvid(uvg.getUvid());
+        ueberweisungsVorlage.setKunde(kunde);
+        ueberweisungsVorlage.setBetrag(uvg.getBetrag());
+        ueberweisungsVorlage.setDatum(uvg.getDatum());
+        ueberweisungsVorlage.setVonkonto(vonKonto);
+        ueberweisungsVorlage.setErlaeuterung(uvg.getVerwendungszweck());
+        
+
+        return(iUeberweisungsVorlageImpl.editUeberweisungsVorlage(ueberweisungsVorlage));
+
+    }
+
+
+    /**
+     * Markiert eine Überweisungsvorlage als stornierbar
+     *
+     * @param  uvid ÜberweisungsID der zu löschenden Überweisungsvorlage
+     * @return true, falls eine Überwesiungsvorlage erfolgreich gelöscht wurde,
+     *         false, falls ein Fehler aufgetaucht ist.
+     * @author Alejandro Palacios
+     */
+    @Override
+    public boolean ueberweisungsvorlageLoeschen(int uvid) {
+        return(iUeberweisungsVorlageImpl.deleteUeberweisungsVorlage(uvid));
+    }
+    
+    
+}

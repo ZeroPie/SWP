@@ -1,0 +1,18 @@
+package bks.fachlogik.kontosteuerung.services;
+
+import bks.fachlogik.kontosteuerung.grenz.UeberweisungGrenz;
+import java.util.List;
+
+
+public interface IKontoSteuerung {
+    
+    public List<UeberweisungGrenz> getAlleUeberweisungen();
+    public boolean wartendeUeberweisungenAnzeigen();
+    public boolean ueberweisungAusfuehren(/*Added*/int zuUeberweisen);
+    public List<UeberweisungGrenz> getLoeschbareUeberweisungen();
+    public boolean showLoeschbareUeberweisung();
+    public boolean ueberweisungenLoeschen();
+    //Added
+    public List<UeberweisungGrenz> getWartendeUeberweisungenByKid(int kid);
+    public List<UeberweisungGrenz> getWartendeUeberweisungenByKtoid(int ktoid);
+}

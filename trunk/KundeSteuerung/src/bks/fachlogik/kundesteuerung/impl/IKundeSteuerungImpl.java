@@ -1,0 +1,73 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import bks.datenhaltung.bksdbmodel.entities.Kunde;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.datenhaltung.bksdbmodel.services.IDatabase;
+import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl;
+import bks.datenhaltung.kundedaten.services.ICRUDKunde;
+import bks.fachlogik.kundesteuerung.grenz.KundeGrenz;
+import bks.fachlogik.kundesteuerung.services.IKundeSteuerung;
+import javax.persistence.EntityManager;
+
+/** 
+ * Steuerungsklasse für ProfilBearbeitenFrame bietet Methoden 
+ * zum Suchen und Bearbeiten des Aktuellen Kundenprofils. 
+ *
+ * @author Alexander Merkel
+ */
+public class IKundeSteuerungImpl implements IKundeSteuerung {
+    
+    /**
+     * Liefert den aktuell angemeldeten Kunden als KundeGrenz zurück.
+     *
+     * @author Alexander
+     * @return KundeGrenz
+     */
+    @Override
+    public KundeGrenz getKundenProfil() {
+        return IActivateComponentImpl.getUser();
+         
+    }
+
+    /**
+     * Erstellt eine Entitätsklasse Kunde, befüllt sie mit dem Werten der
+     * übergebenen Grenzklasse KundeGrenz und übergibt sie an die Methode
+     * ICRUDKunde.editKunde(), welche den Übergebenen Datensatz in der Datenbank
+     * ändert.
+     *
+     * @author Alexander
+     * @param kunde zu ändernder Kunde als Grenzklasse
+     * @return true bei Erfolg, false bei Mißerfolg
+     */
+    @Override
+    public boolean kundenProfilBearbeiten(KundeGrenz kunde) {
+
+        Kunde editkunde = new Kunde();
+        editkunde.setKid(kunde.getKid());
+        editkunde.setAdresse(kunde.getAdresse());
+        editkunde.setFamilientstand(kunde.getFamilienstand());
+        editkunde.setGeburtsdatum(kunde.getGeburtsdatum());
+        editkunde.setGeschlecht(kunde.getGeschlecht());
+        editkunde.setName(kunde.getName());
+        editkunde.setVorname(kunde.getVorname());
+        editkunde.setNationalitaet(kunde.getNationalitaet());
+        editkunde.setTelefon(String.valueOf(kunde.getTelefon()));
+        editkunde.setTitel(kunde.getTitel());
+
+        IDatabase db = new IDatabaseImpl();
+        EntityManager em = db.getEntityManager();
+        ICRUDKunde crudKunde = new ICRUDKundeImpl();
+        crudKunde.setEntityManager(em);
+        em.getTransaction().begin();
+
+        if (crudKunde.editKunde(editkunde)) {
+            em.getTransaction().commit();
+            return true;
+        } else {
+            em.getTransaction().rollback();
+            return false;
+        }
+
+    }
+
+}

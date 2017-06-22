@@ -1,0 +1,99 @@
+package bks.fachlogik.kontosteuerung.grenz;
+
+import java.util.Date;
+
+public class KundeGrenz {
+    
+    private int     kid;
+    private String  adresse;
+    private Date    geburtsdatum;
+    private String  geschlecht;
+    private String  name;
+    private int     telefon;
+    private String  titel;
+    //Added
+    private String vorname;
+    private String familienstand;
+    private String nationalitaet;
+
+    //Added
+    public String getVorname() {
+        return vorname;
+    }
+
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getFamilienstand() {
+        return familienstand;
+    }
+
+    public void setFamilienstand(String familienstand) {
+        this.familienstand = familienstand;
+    }
+
+    public String getNationalitaet() {
+        return nationalitaet;
+    }
+
+    public void setNationalitaet(String nationalitaet) {
+        this.nationalitaet = nationalitaet;
+    }
+    //bis Hier
+    public int getKid() {
+        return kid;
+    }
+
+    public void setKid(int kid) {
+        this.kid = kid;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public Date getGeburtsdatum() {
+        return geburtsdatum;
+    }
+
+    public void setGeburtsdatum(Date geburtsdatum) {
+        this.geburtsdatum = geburtsdatum;
+    }
+
+    public String getGeschlecht() {
+        return geschlecht;
+    }
+
+    public void setGeschlecht(String geschlecht) {
+        this.geschlecht = geschlecht;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(int telefon) {
+        this.telefon = telefon;
+    }
+
+    public String getTitel() {
+        return titel;
+    }
+
+    public void setTitel(String titel) {
+        this.titel = titel;
+    }
+}

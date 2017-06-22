@@ -1,0 +1,276 @@
+package bks.datenhaltung.kontodaten.impl;
+
+import bks.datenhaltung.bksdbmodel.entities.Konto;
+import bks.datenhaltung.bksdbmodel.entities.Ueberweisung;
+import bks.datenhaltung.kontodaten.services.IKontoService;
+import bks.datenhaltung.bksdbmodel.entities.Zahlungsverkehr;
+import bks.datenhaltung.kontodaten.services.ICRUDKonto;
+import java.text.SimpleDateFormat;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
+import java.util.Date;
+import static org.junit.Assert.assertEquals;
+
+public class IKontoServiceImpl implements IKontoService {
+
+    private EntityManager entityManager;
+
+    //AP1 Alexander Merkel
+    @Override
+    public void setEntityManager(EntityManager em) {
+        this.entityManager = em;
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public boolean ueberweisungErfassen(Ueberweisung u) {
+        if (entityManager == null) {
+            return false;
+        }
+        Konto vonKonto = entityManager.find(Konto.class, u.getVonkonto().getKtoid());
+        Konto zuKonto = entityManager.find(Konto.class, u.getZukonto().getKtoid());
+        if ((u.getUbid() == null) && (zuKonto != null) && (vonKonto != null)) {
+            u.setStatus("wt");
+            entityManager.persist(u);
+            entityManager.flush();
+            return true;
+        }
+        return false;
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public List<Ueberweisung> getStornierbareUeberweisungen(int kid) {
+        if (entityManager == null) {
+            return null;
+        }
+        List<Ueberweisung> ueberweisungList = null;
+        Query query = entityManager.createNativeQuery("SELECT * FROM Ueberweisung A WHERE A.status = 'wt' AND A.kunde = " + kid, Ueberweisung.class);
+        ueberweisungList = query.getResultList();
+        return ueberweisungList;
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public boolean ueberweisungStornieren(int ubid) {
+        if (entityManager == null) {
+            return false;
+        }
+        Ueberweisung ueberweisung = entityManager.find(Ueberweisung.class, ubid);
+        if ((ueberweisung != null) && ueberweisung.getStatus().equals("wt")) {
+            ueberweisung.setStatus("st");
+            entityManager.merge(ueberweisung);
+            return true;
+        }
+        return false;
+
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public void kontoAktualisieren(int ktoid) {
+        Konto konto = entityManager.find(Konto.class, ktoid);
+        if ((konto != null)) {
+
+            switch (konto.getStatus()) {
+                //End (konto.getStatus().equals("h"))
+                case "h":
+                    if (konto.getKontostand() < 0) {
+                        if ((konto.getDispo() + konto.getKontostand()) < 0) {
+                            konto.setStatus("g");
+                        } else {
+                            konto.setStatus("s");
+                        }
+                    } else {
+                        konto.setStatus("h");
+                    }
+                    break;
+                //End ((konto.getStatus().equals("s")))
+                case "s":
+                    if (konto.getKontostand() < 0) {
+                        if ((konto.getDispo() + konto.getKontostand()) < 0) {
+                            konto.setStatus("g");
+                        } else {
+                            konto.setStatus("s");
+                        }
+                    } else {
+                        konto.setStatus("h");
+                    }
+                    break;
+                //End ((konto.getStatus().equals("g")))
+                case "g":
+                    if (konto.getKontostand() < 0) {
+                        if ((konto.getDispo() + konto.getKontostand()) < 0) {
+                            konto.setStatus("g");
+                        } else {
+                            konto.setStatus("s");
+                        }
+                    } else {
+                        konto.setStatus("h");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }//End (Konto!=null)
+        entityManager.merge(konto);
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public boolean ueberweisungAusfuehren(int ubid) {
+        if (entityManager == null) {
+            return false;
+        }
+        ICRUDKonto icrudKonto = new ICRUDKontoImpl();
+        icrudKonto.setEntityManager(entityManager);
+        Ueberweisung ueberweisung = entityManager.find(Ueberweisung.class, ubid);
+        if (ueberweisung != null && ueberweisung.getStatus().equals("wt")) {
+            Konto vonKonto = entityManager.find(Konto.class, ueberweisung.getVonkonto().getKtoid());
+            Konto zuKonto = entityManager.find(Konto.class, ueberweisung.getZukonto().getKtoid());
+            switch (vonKonto.getStatus()) {
+                case "h":
+                    if (icrudKonto.geldAbheben(vonKonto.getKtoid(), ueberweisung.getBetrag(), "Ueberweisung an: " + zuKonto.getKtoid() + "\nVerwendungszweck: " + ueberweisung.getVerwendungszweck())) {
+                        if (icrudKonto.geldEinzahlen(zuKonto.getKtoid(), ueberweisung.getBetrag(), "Ueberweisung von: " + vonKonto.getKtoid() + "\nVerwendungszweck: " + ueberweisung.getVerwendungszweck())) {
+                            kontoAktualisieren(vonKonto.getKtoid());
+                            kontoAktualisieren(zuKonto.getKtoid());
+                            ueberweisung.setStatus("us");
+                            entityManager.merge(ueberweisung);
+                            return true;
+                        } else {
+                            if (icrudKonto.geldEinzahlen(vonKonto.getKtoid(), ueberweisung.getBetrag(), "Rückbuchung von: " + ueberweisung.getVerwendungszweck())) {
+                                kontoAktualisieren(vonKonto.getKtoid());
+                                kontoAktualisieren(zuKonto.getKtoid());
+                                ueberweisung.setStatus("nu");
+                                entityManager.merge(ueberweisung);
+                                return false;
+                            }
+                        }
+                    } else {
+                        kontoAktualisieren(vonKonto.getKtoid());
+                        kontoAktualisieren(zuKonto.getKtoid());
+                        ueberweisung.setStatus("nu");
+                        entityManager.merge(ueberweisung);
+                        return false;
+                    }
+
+                case "g":
+                    ueberweisung.setStatus("nu");
+                    entityManager.merge(ueberweisung);
+                    return false;
+
+                case "s":
+                    if (icrudKonto.geldAbheben(vonKonto.getKtoid(), ueberweisung.getBetrag(), "Ueberweisung an: " + zuKonto.getKtoid() + "\nVerwendungszweck: " + ueberweisung.getVerwendungszweck())) {
+                        if (icrudKonto.geldEinzahlen(zuKonto.getKtoid(), ueberweisung.getBetrag(), "Ueberweisung von: " + vonKonto.getKtoid() + "\nVerwendungszweck: " + ueberweisung.getVerwendungszweck())) {
+                            kontoAktualisieren(vonKonto.getKtoid());
+                            kontoAktualisieren(zuKonto.getKtoid());
+                            ueberweisung.setStatus("us");
+                            entityManager.merge(ueberweisung);
+                            return true;
+                        } else {
+                            if (icrudKonto.geldEinzahlen(vonKonto.getKtoid(), ueberweisung.getBetrag(), "Rückbuchung von: " + ueberweisung.getVerwendungszweck())) {
+                                kontoAktualisieren(vonKonto.getKtoid());
+                                kontoAktualisieren(zuKonto.getKtoid());
+                                ueberweisung.setStatus("nu");
+                                entityManager.merge(ueberweisung);
+                                return false;
+                            }
+                        }
+                    } else {
+                        kontoAktualisieren(vonKonto.getKtoid());
+                        kontoAktualisieren(zuKonto.getKtoid());
+                        ueberweisung.setStatus("nu");
+                        entityManager.merge(ueberweisung);
+                        return false;
+                    }
+
+            }
+
+        }
+        return false;
+
+    }
+
+    //AP1 Alexander Merkel
+    @Override
+    public boolean kontoFreischalten(int ktoid) {
+        if (entityManager == null) {
+            return false;
+        }
+        Konto konto = entityManager.find(Konto.class, ktoid);
+        if ((konto != null) && (konto.getStatus().equals("i"))) {
+            konto.setStatus("h");
+            entityManager.merge(konto);
+            return true;
+        }
+        return false;
+    }
+
+    @Override   //AP2 Bilal Aydin
+    public List<Zahlungsverkehr> getKontoauszug(int ktoid,Date von, Date bis) {
+        List<Zahlungsverkehr> zahlList = null;
+        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd"); // vergleiche year, month, day & hour          
+        String von_String = dtFormat.format(von);
+        String bis_String = dtFormat.format(bis);
+        if (entityManager != null) {
+          //  Query query = entityManager.createNativeQuery("SELECT * FROM Zahlungsverkehr z INNER JOIN Konto k ON k.ktoid=" + ktoid
+         //           + " AND '" +von_String+ "'<= '"+bis_String+"'", Zahlungsverkehr.class);
+            Query query = entityManager.createNativeQuery("SELECT * FROM Zahlungsverkehr z INNER JOIN Konto k ON k.ktoid="+ktoid+
+                    " WHERE datum between '"+von_String+"' AND '"+bis_String+"'", Zahlungsverkehr.class);
+         //   Query query = entityManager.createNativeQuery("SELECT * FROM Zahlungsverkehr z INNER JOIN Konto k ON k.ktoid="+ktoid+
+           //         " WHERE datum >= '"+von_String+"' AND datum <= '"+bis_String+"'");
+            //   Query query = entityManager.createNativeQuery("SELECT * FROM Zahlungsverkehr", Zahlungsverkehr.class);
+            zahlList = query.getResultList();
+        }
+        return zahlList;
+    }
+
+    @Override   //AP2 Bilal Aydin
+    public List<Zahlungsverkehr> getKontoauszugDrucken(int ktoid) {
+        List<Zahlungsverkehr> zahlList = null;
+        if (entityManager != null) {
+            Query query = entityManager.createNativeQuery("SELECT * FROM Zahlungsverkehr WHERE Konto=" + ktoid + " AND "
+                    + "ausgedruckt = 0", Zahlungsverkehr.class);
+            zahlList = query.getResultList();
+
+            //Updaten das ausgedruckt wurde
+            for (Zahlungsverkehr zahlV : zahlList) {
+                zahlV.setAusgedruckt(true);
+                //   entityManager.getTransaction().begin();
+                entityManager.merge(zahlV);
+                //    entityManager.getTransaction().commit();
+            }
+        }
+        return zahlList;
+    }
+
+    @Override   //AP2 Bilal Aydin
+    public List<Konto> getKontoListe(int kid) {
+        List<Konto> kontoList = null;
+        if (entityManager != null) {
+            Query query = entityManager.createNativeQuery("SELECT * FROM Konto WHERE Kunde=" + kid, Konto.class);
+            kontoList = query.getResultList();
+        }
+        return kontoList;
+    }
+
+    @Override   //AP2 Bilal Aydin
+    public Konto getKontoByID(int ktoid) {
+        Konto konto = null;
+        if (entityManager != null) {
+            konto = entityManager.find(Konto.class, ktoid);
+        }
+        return konto;
+    }
+
+    @Override  //AP2 Bilal Aydin
+    public List<Konto> getNichtFreigeschalteteKonten() {
+        List<Konto> kontoList = null;
+        if (entityManager != null) {
+            Query query = entityManager.createNativeQuery("SELECT * FROM Konto WHERE status='i'", Konto.class);
+            kontoList = query.getResultList();
+        }
+        return kontoList;
+    }
+}

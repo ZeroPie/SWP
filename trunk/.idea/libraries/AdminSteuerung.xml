@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AdminSteuerung">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AdminSteuerung/dist/AdminSteuerung.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="BKSDBDEVPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>bks.datenhaltung.bksdbmodel.entities.Sachbearbeiter</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Kunde</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Antrag</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Konto</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Ueberweisung</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Manager</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Admin</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.UeberweisungsVorlage</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Zahlungsverkehr</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://139.6.17.63:3333/bksdb_dev1"/>
+      <property name="javax.persistence.jdbc.password" value="1234567890"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="bksdbdevuser1"/>
+      <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="BKSDBPRODPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>bks.datenhaltung.bksdbmodel.entities.Sachbearbeiter</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Kunde</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Antrag</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Konto</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Ueberweisung</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Manager</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Admin</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.UeberweisungsVorlage</class>
+    <class>bks.datenhaltung.bksdbmodel.entities.Zahlungsverkehr</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://139.6.17.63:3333/bksdb_prod"/>
+      <property name="javax.persistence.jdbc.password" value="0123456789abcdef"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="bksdbproduser"/>
+      <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>

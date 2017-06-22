@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Bootloader">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Bootloader/dist/Bootloader.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

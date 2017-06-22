@@ -1,0 +1,15 @@
+package bks.fachlogik.kundesteuerung.services;
+
+import bks.fachlogik.kundesteuerung.grenz.UeberweisungsvorlageGrenz;
+import java.util.List;
+
+public interface IUeberweisungVorlageSteuerung {
+    
+    public List<UeberweisungsvorlageGrenz>  getUeberweisungvorlagenList();
+    public UeberweisungsvorlageGrenz        getUeberweisungvorlage(int uvid);
+    public boolean                          ueberweisungsvorlageAnlegen(UeberweisungsvorlageGrenz uvg);
+    public boolean                          ueberweisungsvorlageBearbeiten();
+    public boolean                          ueberweisungsvorlageLoeschen(int uvidList[]);
+    public boolean                          ueberweisungsvorlageAnzeigen(int uvid);
+    
+}

@@ -1,0 +1,8 @@
+package bks.fachlogik.kundesteuerung.enums;
+
+public enum Familienstand {
+    l,
+    v,
+    w,
+    g
+}

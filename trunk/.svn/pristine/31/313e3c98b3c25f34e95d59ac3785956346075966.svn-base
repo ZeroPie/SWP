@@ -1,0 +1,126 @@
+javac.external.vm=false
+#Mon Jun 20 08:34:55 CEST 2016
+jnlp.offline-allowed=false
+javadoc.splitindex=true
+build.classes.excludes=**/*.java,**/*.form
+auxiliary.org-nbheaven-sqe-tools-checkstyle-codedefects-projects-freeform.checkstyle_2e_configuration_2e_properties=C\:\\swp\\BKS\\BKS-SysComps\\Bootloader
+project.AdminDaten=../AdminDaten
+project.KontoDaten=../KontoDaten
+project.KundeDaten=../KundeDaten
+project.ManagerDaten=../ManagerDaten
+project.SachbearbeiterDaten=../SachbearbeiterDaten
+reference.AdminDaten.jar=${project.AdminDaten}/dist/AdminDaten.jar
+reference.KontoDaten.jar=${project.KontoDaten}/dist/KontoDaten.jar
+reference.KundeDaten.jar=${project.KundeDaten}/dist/KundeDaten.jar
+reference.ManagerDaten.jar=${project.ManagerDaten}/dist/ManagerDaten.jar
+reference.ManagerGUI.jar=${project.ManagerGUI}/dist/ManagerGUI.jar
+javadoc.author=false
+build.sysclasspath=ignore
+project.AdminGUI=../AdminGUI
+javac.target=1.8
+build.generated.dir=${build.dir}/generated
+reference.SachbearbeiterDaten.jar=${project.SachbearbeiterDaten}/dist/SachbearbeiterDaten.jar
+run.classpath=\
+    ${javac.classpath}:\
+    ${build.classes.dir}
+debug.test.classpath=${run.test.classpath}
+jnlp.descriptor=application
+project.BKSDBModel=../BKSDBModel
+build.dir=build
+reference.ComponentController.jar=${project.ComponentController}/dist/ComponentController.jar
+javac.deprecation=false
+jnlp.signed=false
+project.ComponentController=../ComponentController
+test.src.dir=test
+junit.selected.version=4
+includes=**
+application.vendor=farhan
+reference.ManagerSteuerung.jar=${project.ManagerSteuerung}/dist/ManagerSteuerung.jar
+mkdist.disabled=false
+jar.compress=false
+project.ManagerSteuerung=../ManagerSteuerung
+annotation.processing.processors.list=
+javadoc.version=false
+build.classes.dir=${build.dir}/classes
+dist.dir=dist
+auxiliary.org-nbheaven-sqe-tools-checkstyle-codedefects-projects-freeform.checkstyle_2e_configuration_2e_file=C\:\\swp\\BKS\\BKS-SysComps\\Bootloader
+manifest.file=manifest.mf
+javac.source=1.8
+reference.BKSDBModel.jar=${project.BKSDBModel}/dist/BKSDBModel.jar
+run.test.classpath=\
+    ${javac.test.classpath}:\
+    ${build.test.classes.dir}
+build.generated.sources.dir=${build.dir}/generated-sources
+reference.SachbearbeiterGUI.jar=${project.SachbearbeiterGUI}/dist/SachbearbeiterGUI.jar
+javadoc.notree=false
+dist.jar=${dist.dir}/Bootloader.jar
+platform.active=default_platform
+reference.KontoGUI.jar=${project.KontoGUI}/dist/KontoGUI.jar
+annotation.processing.enabled=true
+main.class=bks.gui.bootloader.gui.LoginGUI
+dist.javadoc.dir=${dist.dir}/javadoc
+reference.KundeSteuerung.jar=${project.KundeSteuerung}/dist/KundeSteuerung.jar
+project.KundeGUI=../KundeGUI
+javadoc.additionalparam=
+javac.classpath=\
+    ${reference.ComponentController.jar}:\
+    ${libs.MySQLDriver.classpath}:\
+    ${libs.eclipselink.classpath}:\
+    ${reference.BKSDBModel.jar}:\
+    ${libs.beans-binding.classpath}:\
+    ${libs.swing-layout.classpath}:\
+    ${reference.AdminGUI.jar}:\
+    ${reference.AdminSteuerung.jar}:\
+    ${reference.KontoGUI.jar}:\
+    ${reference.KontoSteuerung.jar}:\
+    ${reference.KundeGUI.jar}:\
+    ${reference.KundeSteuerung.jar}:\
+    ${reference.ManagerGUI.jar}:\
+    ${reference.ManagerSteuerung.jar}:\
+    ${reference.SachbearbeiterGUI.jar}:\
+    ${reference.SachbearbeiterSteuerung.jar}:\
+    ${libs.absolutelayout.classpath}:\
+    ${reference.AdminDaten.jar}:\
+    ${reference.KontoDaten.jar}:\
+    ${reference.KundeDaten.jar}:\
+    ${reference.ManagerDaten.jar}:\
+    ${reference.SachbearbeiterDaten.jar}
+javadoc.noindex=false
+project.KundeSteuerung=../KundeSteuerung
+reference.AdminGUI.jar=${project.AdminGUI}/dist/AdminGUI.jar
+annotation.processing.enabled.in.editor=false
+javadoc.private=false
+javadoc.encoding=${source.encoding}
+build.test.classes.dir=${build.dir}/test/classes
+project.ManagerGUI=../ManagerGUI
+javac.compilerargs=
+source.encoding=UTF-8
+reference.KundeGUI.jar=${project.KundeGUI}/dist/KundeGUI.jar
+meta.inf.dir=${src.dir}/META-INF
+annotation.processing.run.all.processors=true
+reference.AdminSteuerung.jar=${project.AdminSteuerung}/dist/AdminSteuerung.jar
+excludes=
+application.title=Bootloader
+jnlp.codebase.type=local
+project.KontoSteuerung=../KontoSteuerung
+project.SachbearbeiterSteuerung=../SachbearbeiterSteuerung
+javac.processorpath=\
+    ${javac.classpath}
+build.test.results.dir=${build.dir}/test/results
+project.SachbearbeiterGUI=../SachbearbeiterGUI
+endorsed.classpath=
+javadoc.use=true
+javadoc.nonavbar=false
+reference.KontoSteuerung.jar=${project.KontoSteuerung}/dist/KontoSteuerung.jar
+javadoc.windowtitle=
+project.AdminSteuerung=../AdminSteuerung
+javac.test.classpath=\
+    ${javac.classpath}:\
+    ${build.classes.dir}:\
+    ${libs.junit_4.classpath}:\
+    ${libs.hamcrest.classpath}
+src.dir=src
+project.KontoGUI=../KontoGUI
+debug.classpath=${run.classpath}
+reference.SachbearbeiterSteuerung.jar=${project.SachbearbeiterSteuerung}/dist/SachbearbeiterSteuerung.jar
+jnlp.enabled=false

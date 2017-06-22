@@ -1,0 +1,110 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package bks.fachlogik.kundesteuerung.impl;
+import bks.datenhaltung.bksdbmodel.entities.Konto;
+import bks.datenhaltung.bksdbmodel.entities.Ueberweisung;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.fachlogik.kundesteuerung.grenz.KundeGrenz;
+import bks.fachlogik.kundesteuerung.grenz.UeberweisungGrenz;
+import bks.fachlogik.kundesteuerung.services.IUeberweisungSteuerung;
+import java.util.List;
+import javax.persistence.EntityManager;
+
+/**
+ * Stellt Funktionen zur Steuerung/Handhabung von Überweisungen bereit.
+ * Diese Klasse kann Überweisungen durch Daten des Users aus der GUI erstellen
+ * und Überweisungen aus der Datenbank holen und für die GUI angepasst
+ * bereitstellen.
+ * 
+ * @author Barthélémy Bonhomme
+ */
+public class IUeberweisungSteuerungImpl implements IUeberweisungSteuerung {
+    
+    private final IKontoServiceImpl kontoService = new IKontoServiceImpl();
+    private final KundeGrenz kunde = IActivateComponentImpl.getUser();
+    private EntityManager entityManager;
+    
+    /**
+     * Initialisiert den {@link EntityManager} und die {@link IKontoServiceImpl}
+     * Instanz.
+     * 
+     * @author Barthélémy Bonhomme
+     */
+    public IUeberweisungSteuerungImpl(){
+        IDatabaseImpl database = new IDatabaseImpl();
+        this.entityManager = database.getEntityManager();
+        this.kontoService.setEntityManager(entityManager);
+    }
+
+    @Override
+    public List<Ueberweisung> getStornierbareUeberweisungen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    /**
+     * Erstellt eine Überweisung auf Grundlage vom User eingegebener Daten.
+     * Es wird geprüft, ob beide betroffenen Konten existieren, und ob das
+     * Absender-Konto dem eingeloggten User gehört.
+     * Laufzeitausnahmen werden an die GUI-Schicht weitergegeben.
+     * 
+     * @param uGrenz Grenzklasse der zu erfassenden Überweisung
+     * @return true, falls eine Überwesiung erfolgreich erstellt wurde,
+     *         false, falls ein Fehler aufgetaucht ist.
+     * @author Barthélémy Bonhomme
+     */
+    @Override
+    // added parameter
+    public boolean ueberweisungErfassen(UeberweisungGrenz uGrenz) throws RuntimeException {
+        Ueberweisung ueberweisung = new Ueberweisung();
+        Konto vonKonto = this.kontoService.getKontoByID(uGrenz.getVonkonto());
+        Konto anKonto = this.kontoService.getKontoByID(uGrenz.getZukonto());
+        
+        if(vonKonto == null){
+            throw new RuntimeException("Abbuchungskonto nicht gefunden.");
+        }
+        
+        if(anKonto == null){
+            throw new RuntimeException("Zielkonto nicht gefunden.");
+        }
+        
+        if(vonKonto.getKunde().getKid() != this.kunde.getKid()){
+            throw new RuntimeException("Das angegebene Abbuchungskonto ist keines Ihrer Konten.");
+        }
+        
+        ueberweisung.setBetrag(uGrenz.getBetrag());
+        ueberweisung.setVerwendungszweck(uGrenz.getVerwendungszweck());
+        ueberweisung.setDatum(uGrenz.getDatum());
+        ueberweisung.setVonkonto(vonKonto);
+        ueberweisung.setZukonto(anKonto);
+        ueberweisung.setKunde(vonKonto.getKunde());
+        
+        this.entityManager.getTransaction().begin();
+       
+        if(this.kontoService.ueberweisungErfassen(ueberweisung)){
+            this.entityManager.getTransaction().commit();
+            return true;
+        }else {
+            this.entityManager.getTransaction().rollback();
+            return false;
+        }
+    }
+    /**
+     * Storniert eine Überweisung.
+     *
+     * @param  ubid ÜberweisungsID der zu löschenden Überweisung
+     * @return true, falls eine Überwesiung erfolgreich gelöscht wurde,
+     *         false, falls ein Fehler aufgetaucht ist.
+     * @author Alejandro Palacios
+     */
+    @Override
+    public boolean ueberweisungStornieren(int ubid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+}

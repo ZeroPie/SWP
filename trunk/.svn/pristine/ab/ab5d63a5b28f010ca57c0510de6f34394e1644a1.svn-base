@@ -1,0 +1,6 @@
+package bks.fachlogik.kundesteuerung.enums;
+
+public enum Titel {
+    dr,
+    prof,
+}

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KontoSteuerung">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/KontoSteuerung/dist/KontoSteuerung.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

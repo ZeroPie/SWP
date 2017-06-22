@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AdminGUI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AdminGUI/dist/AdminGUI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

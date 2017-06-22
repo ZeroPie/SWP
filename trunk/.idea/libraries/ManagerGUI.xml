@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ManagerGUI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ManagerGUI/dist/ManagerGUI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

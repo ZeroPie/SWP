@@ -1,0 +1,108 @@
+package bks.fachlogik.kundesteuerung.grenz;
+
+import java.util.Date;
+
+public class KontoauszugGrenz {
+    
+    private int     kaid;
+    private int     blz;
+    private int     konto;
+    private Date    datum;
+    private String  bankname;
+    private String  buchungstext;
+    private String  stadt;
+    private double  betrag;
+    private double  saldo;
+    
+    //added
+    private double  haben;
+    private double  soll;
+
+    public double getHaben() {
+        return haben;
+    }
+
+    public void setHaben(double haben) {
+        this.haben = haben;
+    }
+
+    public double getSoll() {
+        return soll;
+    }
+
+    public void setSoll(double soll) {
+        this.soll = soll;
+    }
+
+    public int getKaid() {
+        return kaid;
+    }
+
+    public void setKaid(int kaid) {
+        this.kaid = kaid;
+    }
+
+    public int getBlz() {
+        return blz;
+    }
+
+    public void setBlz(int blz) {
+        this.blz = blz;
+    }
+
+    public int getKonto() {
+        return konto;
+    }
+
+    public void setKonto(int konto) {
+        this.konto = konto;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
+
+    public String getBankname() {
+        return bankname;
+    }
+
+    public void setBankname(String bankname) {
+        this.bankname = bankname;
+    }
+
+    public String getBuchungstext() {
+        return buchungstext;
+    }
+
+    public void setBuchungstext(String buchungstext) {
+        this.buchungstext = buchungstext;
+    }
+
+    public String getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
+    }
+
+    public double getBetrag() {
+        return betrag;
+    }
+
+    public void setBetrag(double betrag) {
+        this.betrag = betrag;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+}

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ManagerSteuerung">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ManagerSteuerung/dist/ManagerSteuerung.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

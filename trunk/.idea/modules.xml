@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AdminGUI/AdminGUI.iml" filepath="$PROJECT_DIR$/AdminGUI/AdminGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AdminSteuerung/AdminSteuerung.iml" filepath="$PROJECT_DIR$/AdminSteuerung/AdminSteuerung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BKSDBModel/BKSDBModel.iml" filepath="$PROJECT_DIR$/BKSDBModel/BKSDBModel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bootloader/Bootloader.iml" filepath="$PROJECT_DIR$/Bootloader/Bootloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ComponentController/ComponentController.iml" filepath="$PROJECT_DIR$/ComponentController/ComponentController.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KontoDaten/KontoDaten.iml" filepath="$PROJECT_DIR$/KontoDaten/KontoDaten.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KontoGUI/KontoGUI.iml" filepath="$PROJECT_DIR$/KontoGUI/KontoGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KontoSteuerung/KontoSteuerung.iml" filepath="$PROJECT_DIR$/KontoSteuerung/KontoSteuerung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KundeDaten/KundeDaten.iml" filepath="$PROJECT_DIR$/KundeDaten/KundeDaten.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KundeGUI/KundeGUI.iml" filepath="$PROJECT_DIR$/KundeGUI/KundeGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KundeSteuerung/KundeSteuerung.iml" filepath="$PROJECT_DIR$/KundeSteuerung/KundeSteuerung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Manager/Manager.iml" filepath="$PROJECT_DIR$/Manager/Manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ManagerGUI/ManagerGUI.iml" filepath="$PROJECT_DIR$/ManagerGUI/ManagerGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ManagerSteuerung/ManagerSteuerung.iml" filepath="$PROJECT_DIR$/ManagerSteuerung/ManagerSteuerung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SachbearbeiterDaten/SachbearbeiterDaten.iml" filepath="$PROJECT_DIR$/SachbearbeiterDaten/SachbearbeiterDaten.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SachbearbeiterGUI/SachbearbeiterGUI.iml" filepath="$PROJECT_DIR$/SachbearbeiterGUI/SachbearbeiterGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SachbearbeiterSteuerung/SachbearbeiterSteuerung.iml" filepath="$PROJECT_DIR$/SachbearbeiterSteuerung/SachbearbeiterSteuerung.iml" />
+    </modules>
+  </component>
+</project>

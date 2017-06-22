@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KundeGUI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/KundeGUI/dist/KundeGUI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

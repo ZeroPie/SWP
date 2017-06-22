@@ -1,0 +1,134 @@
+package bks.fachlogik.kundesteuerung.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import bks.datenhaltung.bksdbmodel.entities.*;
+import bks.datenhaltung.sachbearbeiterdaten.impl.*;
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.fachlogik.kundesteuerung.grenz.*;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
+import bks.fachlogik.kundesteuerung.services.IUeberweisungVorlageSteuerung;
+
+
+public class IUeberweisungVorlageSteuerungImpl implements IUeberweisungVorlageSteuerung {
+
+    private final IKontoServiceImpl kontoService = new IKontoServiceImpl();
+    private final IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();
+    private final KundeGrenz kunde = IActivateComponentImpl.getUser();
+    private EntityManager entityManager;
+
+
+
+    /**
+     * Initialisiert den {@link EntityManager} und die {@link IUeberweisungsVorlageImpl}
+     * Instanz.
+     *
+     * @author Alejandro Palacios
+     */
+    public IUeberweisungVorlageSteuerungImpl(){
+        IDatabaseImpl database = new IDatabaseImpl();
+        this.entityManager = database.getEntityManager();
+        this.iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+    }
+
+
+    /* Lädt eine Liste aller UeberweisungsVorlagen vom Kunden
+     * durch IUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(kid),
+     * und returns eine Liste von Typ UeberweisungsVorlageGrenz
+     *
+     * @author Alejandro Palacios
+     * @param void (implizit Kunde)
+     * @return Liste aller UeberweisungsVorlagen
+     */
+    @Override
+    public ArrayList<UeberweisungsvorlageGrenz> getUeberweisungvorlagenList() {
+
+        IDatabaseImpl database = new IDatabaseImpl();
+        this.entityManager     = database.getEntityManager();
+        List<UeberweisungsVorlage>           ueberweisungsvorlageList      = new ArrayList<>();
+        ArrayList<UeberweisungsvorlageGrenz> ueberweisungsvorlageGrenzList = new ArrayList<>();
+        iUeberweisungsVorlageImpl.setEntityManager(entityManager);
+
+        ueberweisungsvorlageList = iUeberweisungsVorlageImpl.getUeberweisungsVorlagenDesKunden(kunde.getKid());
+
+        if(ueberweisungsvorlageList == null){
+            ueberweisungsvorlageGrenzList = null;
+            return ueberweisungsvorlageGrenzList;
+        } else {
+            for (UeberweisungsVorlage uV : ueberweisungsvorlageList) {
+                UeberweisungsvorlageGrenz uVG = new UeberweisungsvorlageGrenz();
+                uVG.setUvid(uV.getUvid());
+                uVG.setBetrag(uV.getBetrag());
+                uVG.setDatum(uV.getDatum());
+                uVG.setKid(uV.getKunde().getKid());
+                uVG.setVerwendungszweck(uV.getErlaeuterung());
+                uVG.setVonkonto(uV.getVonkonto().getKtoid());
+                
+                ueberweisungsvorlageGrenzList.add(uVG);
+            }
+            return ueberweisungsvorlageGrenzList;
+        }
+    }
+
+    
+    /**
+     * Macht aus die Uberweisungsvorlage-Grenzklasse eine Ueberweisungsvorlage-Entitätsklasse 
+     * und speichert diese mit iUeberweisungsVorlageImpl.insertUeberweisungsVorlage() in der Datenbank
+     *
+     * @author Alejandro Palacios
+     * @param ueberweisungsVorlageGrenz zu ändernder Ueberweisungsvorlage als Grenzklasse
+     * @return true bei Erfolg, false bei Mißerfolg
+     */
+    @Override
+    public boolean ueberweisungsvorlageAnlegen(UeberweisungsvorlageGrenz ueberweisungsVorlageGrenz) throws RuntimeException {
+        UeberweisungsVorlage ueberweisungsVorlage = new UeberweisungsVorlage();
+        Konto vonKonto = this.kontoService.getKontoByID(ueberweisungsVorlageGrenz.getVonkonto());
+
+        if(vonKonto == null){
+            throw new RuntimeException("Abbuchungskonto nicht gefunden.");
+        }
+        if(vonKonto.getKunde().getKid() != this.kunde.getKid()){
+            throw new RuntimeException("Das angegebene Abbuchungskonto ist keines Ihrer Konten.");
+        }
+
+
+        ueberweisungsVorlage.setBetrag(ueberweisungsVorlageGrenz.getBetrag());
+        ueberweisungsVorlage.setDatum(ueberweisungsVorlageGrenz.getDatum());
+        ueberweisungsVorlage.setErlaeuterung(ueberweisungsVorlageGrenz.getVerwendungszweck());
+        ueberweisungsVorlage.setVonkonto(vonKonto);
+        ueberweisungsVorlage.setKunde(vonKonto.getKunde());
+        
+        entityManager.getTransaction().begin();
+        
+        if(iUeberweisungsVorlageImpl.insertUeberweisungsVorlage(ueberweisungsVorlage)){
+            entityManager.getTransaction().commit();
+            return true;
+        }else {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean ueberweisungsvorlageBearbeiten(UeberweisungsvorlageGrenz uvg) {
+        return false;
+    }
+
+
+    /**
+     * Storniert eine Überweisungsvorlage
+     *
+     * @param  uvid ÜberweisungsID der zu löschenden Überweisungsvorlage
+     * @return true, falls eine Überwesiungsvorlage erfolgreich gelöscht wurde,
+     *         false, falls ein Fehler aufgetaucht ist.
+     * @author Alejandro Palacios
+     */
+    @Override
+    public boolean ueberweisungsvorlageLoeschen(int uvid) {
+        IUeberweisungsVorlageImpl iUeberweisungsVorlageImpl = new IUeberweisungsVorlageImpl();    
+        return(iUeberweisungsVorlageImpl.deleteUeberweisungsVorlage(uvid));
+    }
+    
+    
+}
