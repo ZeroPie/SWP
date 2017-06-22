@@ -11,6 +11,9 @@
 - [ICRUDKundeImplTest]
 ---
 #### Steuerung | KundeSteuerung
+import bks.datenhaltung.bksdbmodel.impl.IDatabaseImpl;
+import bks.datenhaltung.bksdbmodel.services.IDatabase;
+import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
 ---
 
 #### bks.fachlogik.kundesteuerung.grenz;
