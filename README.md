@@ -1,8 +1,7 @@
 ---
 #### Datenhaltung
 ---
-
-### KundeDaten
+#### KundeDaten
 #### kundedaten.impl
 - [ICrudKundeImpl]
 
