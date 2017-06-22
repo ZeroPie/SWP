@@ -14,7 +14,7 @@
 ---
 
 #### bks.fachlogik.kundesteuerung.grenz;
-- [KontoGrenz]
+- [KundeGrenz]
 #### bks.fachlogik.kundesteuerung.impl;
 - [ICRUDKundeImpl]
 
@@ -33,7 +33,7 @@
 [ICRUDKundeImplTest]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/test/bks/datenhaltung/kundedaten/impl/ICRUDKundeImplTest.java>
 
-[KontoGrenz]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/grenz/KontoGrenz.java>
+[KundeGrenz]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/grenz/KundeGrenz.java>
 
 [ICRUDKundeImpl]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/impl/IKundeSteuerungImpl.java>
