@@ -13,6 +13,10 @@ import javax.persistence.EntityManager;
 
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
+```
+private static EntityManager entityManager;
+private final static IDatabase iDatabase = new IDatabaseImpl();
+```
 ---
 #### Steuerung | KundeSteuerung
 ---
