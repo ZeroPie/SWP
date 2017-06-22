@@ -28,10 +28,10 @@ import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
 #### GUI | KundeGUI |
 ---
 #### bks.gui.kundegui.gui;
+- [FrameKunde]
 ```
 import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 ```
-- [FrameKunde]
 - [KundeGUI]
 
 [ICRUDKundeImpl]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/impl/ICRUDKundeImpl.java>
