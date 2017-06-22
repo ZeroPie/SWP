@@ -16,7 +16,7 @@
 #### bks.fachlogik.kundesteuerung.grenz;
 - [KundeGrenz]
 #### bks.fachlogik.kundesteuerung.impl;
-- [ICRUDKundeImpl]
+- [IKundeSteuerungImpl]
 
 #### bks.fachlogik.kundesteuerung.services;
 - [IKundeSteuerung]
