@@ -11,7 +11,7 @@
 - [ICrudKundeImpl]
 
 ---
-#### Steuerung | KundeSteuerung | (uses ICRUDKundeImpl);
+#### Steuerung | KundeSteuerung | (uses ICRUDKundeImpl)
 ---
 
 #### bks.fachlogik.kundesteuerung.grenz;
@@ -26,7 +26,7 @@
 import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl; 
 ```
 ---
-#### GUI | KundeGUI |
+#### GUI | KundeGUI | (uses IKundeSteuerungImpl)
 ---
 #### bks.gui.kundegui.gui;
 - [FrameKunde]
