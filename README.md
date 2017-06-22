@@ -24,6 +24,7 @@
 #### GUI | KundeGUI
 ---
 #### bks.gui.kundegui.gui;
+- [FrameKunde]
 - [KundeGUI]
 
 [ICRUDKundeImpl]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/impl/ICRUDKundeImpl.java>
@@ -43,3 +44,5 @@
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java>
 [KundeGUI]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/ProfilBearbeitenFrame.java>
+
+[FrameKunde]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/FrameKunde.java>
