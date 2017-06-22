@@ -6,6 +6,12 @@
 
 #### bks.datenhaltung.kundedaten.impl
 - [ICrudKundeImpl]
+```
+import bks.datenhaltung.bksdbmodel.entities.Kunde;
+import bks.datenhaltung.kundedaten.services.ICRUDKunde;
+import javax.persistence.Query;
+import javax.persistence.EntityManager;
+```
 
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
