@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import bks.datenhaltung.bksdbmodel.entities.Kunde;
 ```
 #### bks.datenhaltung.kundedaten.impl
-- [ICrudKundeImpl
+- [ICrudKundeImpl]
 
 #### test.bks.datenhaltung.kundedaten.impl
 - [ICRUDKundeImplTest]
