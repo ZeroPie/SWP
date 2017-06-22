@@ -12,6 +12,8 @@ Datenhaltung
 #### kundedaten.services(Interfaces)
 - ICrudKunde
 
+### test
+- ICRUDKundeImplTest
 
 ---
 Steuerung
