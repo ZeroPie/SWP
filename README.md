@@ -12,8 +12,7 @@
 
 ---
 #### Steuerung | KundeSteuerung ```
-import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl; 
-```
+import bks.datenhaltung.kundedaten.impl.ICRUDKundeImpl; ```
 ---
 
 #### bks.fachlogik.kundesteuerung.grenz;
