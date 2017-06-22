@@ -7,7 +7,7 @@ Datenhaltung
 
 ### KundeDaten
 #### kundedaten.impl
-- *[ICrudKundeImpl]
+- [ICrudKundeImpl]
 
 #### kundedaten.services(Interfaces)
 - ICrudKunde
