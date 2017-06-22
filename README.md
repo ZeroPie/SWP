@@ -10,7 +10,7 @@ Datenhaltung
 - [ICrudKundeImpl]
 
 #### kundedaten.services(Interfaces)
-- ICrudKunde
+- [ICrudKunde]
 
 #### test
 - ICRUDKundeImplTest
