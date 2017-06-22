@@ -12,7 +12,7 @@
 - [ICRUDKundeImplTest]
 
 ---
-##### Steuerung
+##### Steuerung | KundeSteuerung
 ---
 
 
