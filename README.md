@@ -9,8 +9,6 @@
 - [ICrudKunde]
 
 ```
-package bks.datenhaltung.kundedaten.services;
-
 import javax.persistence.EntityManager;
 import bks.datenhaltung.bksdbmodel.entities.Kunde;
 ```
