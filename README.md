@@ -56,4 +56,4 @@ import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 [KundeGUI]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/ProfilBearbeitenFrame.java>
 
-[FrameKunde]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/FrameKunde.java>
+[FrameKunde]:<https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/FrameKunde.java>
