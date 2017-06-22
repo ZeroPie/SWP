@@ -17,9 +17,8 @@
 #### impl
 #### services
 
-
 ---
-GUI
+#### GUI | KundeGUI
 ---
 
 [ICRUDKundeImpl]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeDaten/src/bks/datenhaltung/kundedaten/impl/ICRUDKundeImpl.java>
