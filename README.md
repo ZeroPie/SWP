@@ -12,8 +12,6 @@
 import javax.persistence.EntityManager;
 import bks.datenhaltung.bksdbmodel.entities.Kunde;
 ```
-- [ICrudKunde]
-
 #### test
 - [ICRUDKundeImplTest]
 
