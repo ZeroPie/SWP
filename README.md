@@ -27,8 +27,10 @@ import bks.datenhaltung.kontodaten.impl.IKontoServiceImpl;
 ---
 #### GUI | KundeGUI |
 ---
-import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 #### bks.gui.kundegui.gui;
+```
+import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
+```
 - [FrameKunde]
 - [KundeGUI]
 
