@@ -17,9 +17,8 @@
 - [KundeGrenz]
 #### bks.fachlogik.kundesteuerung.impl;
 - [IKundeSteuerungImpl]
-
 #### bks.fachlogik.kundesteuerung.services;
-- [IKundeSteuerungImpl]
+- [IKundeSteuerung]
 ---
 #### GUI | KundeGUI |
 ---
@@ -40,8 +39,8 @@ import bks.fachlogik.kundesteuerung.impl.IKundeSteuerungImpl;
 [KundeGrenz]: <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/grenz/KundeGrenz.java>
 
 [ICRUDKundeImpl]:
-<https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/impl/IKundeSteuerungImpl.java>
-[IKundeSteuerung]:
+<https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java>
+[IKundeSteuerungImpl]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeSteuerung/src/bks/fachlogik/kundesteuerung/services/IKundeSteuerung.java>
 [KundeGUI]:
 <https://github.com/ZeroPie/SWP/blob/master/trunk/KundeGUI/src/bks/gui/kundegui/gui/ProfilBearbeitenFrame.java>
