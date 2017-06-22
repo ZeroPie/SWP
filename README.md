@@ -2,10 +2,10 @@
 ##### Datenhaltung | KundeDaten
 ---
 ### bks.datenhaltung.kundedaten.impl
-[ICrudKundeImpl
+- [ICrudKundeImpl
 
 ### bks.datenhaltung.kundedaten.services(Interfaces)
-[ICrudKunde]
+- [ICrudKunde]
 
 ```
 import javax.persistence.EntityManager;
